@@ -1,12 +1,14 @@
 import { createBrowserRouter } from "react-router";
 
+const load = (importer: () => Promise<any>) => async () => {
+	const module = await importer();
+	return { Component: module.default };
+};
+
 export const createAppRouter = () =>
 	createBrowserRouter([
 		{
 			path: "/register",
-			lazy: async () => {
-				const module = await import("@/app/routes");
-				return { Component: module.default };
-			},
+			lazy: load(() => import("@/app/routes/auth/register")),
 		},
 	]);
