@@ -1,10 +1,10 @@
 import AuthLayout from "@/components/layouts/AuthLayout";
-import { SignupForm } from "@/components/signup-form";
+import { LoginForm } from "@/components/login-form";
 
-export default function Register() {
+export default function Login() {
     return (
         <AuthLayout>
-            <SignupForm />
+            <LoginForm />
         </AuthLayout>
     );
 }
