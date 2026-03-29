@@ -24,5 +24,8 @@
 	"homepage": "https://github.com/DeuxLim/orqestra#readme",
 	"devDependencies": {
 		"concurrently": "^9.2.1"
+	},
+	"dependencies": {
+		"@hookform/resolvers": "^5.2.2"
 	}
 }

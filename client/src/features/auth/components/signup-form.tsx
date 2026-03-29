@@ -28,7 +28,7 @@ export function SignupForm({
                         Create your account
                     </CardTitle>
                     <CardDescription>
-                        Enter your email below to create your account
+                        Enter your details below to create your account
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -36,12 +36,32 @@ export function SignupForm({
                         <FieldGroup>
                             <Field>
                                 <FieldLabel htmlFor="name">
-                                    Full Name
+                                    First Name
                                 </FieldLabel>
                                 <Input
-                                    id="name"
+                                    id="first_name"
                                     type="text"
-                                    placeholder="John Doe"
+                                    placeholder="John"
+                                    required
+                                />
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="name">
+                                    Last Name
+                                </FieldLabel>
+                                <Input
+                                    id="last_name"
+                                    type="text"
+                                    placeholder="Doe"
+                                    required
+                                />
+                            </Field>
+                            <Field>
+                                <FieldLabel htmlFor="name">Username</FieldLabel>
+                                <Input
+                                    id="username"
+                                    type="text"
+                                    placeholder="johndoe"
                                     required
                                 />
                             </Field>
@@ -50,7 +70,7 @@ export function SignupForm({
                                 <Input
                                     id="email"
                                     type="email"
-                                    placeholder="m@example.com"
+                                    placeholder="johndoe@example.com"
                                     required
                                 />
                             </Field>
