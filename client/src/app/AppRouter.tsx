@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { createAppRouter } from "@/app/routes";
 import { RouterProvider } from "react-router";
+import { createAppRouter } from "@/app/router";
 
 export const AppRouter = () => {
 	const router = useMemo(() => createAppRouter(), []);
