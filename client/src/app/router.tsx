@@ -10,6 +10,10 @@ const load =
 export const createAppRouter = () =>
     createBrowserRouter([
         {
+            index: true,
+            element: <>Landing Page</>,
+        },
+        {
             path: "/register",
             lazy: load(() => import("@/features/auth/routes/register")),
         },
