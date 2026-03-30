@@ -24,15 +24,28 @@ export function LoginForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
-    const { register, handleSubmit, setError } = useForm<LoginInputType>({
+    const {
+        register,
+        handleSubmit,
+        setError,
+        formState: { errors },
+    } = useForm<LoginInputType>({
         resolver: zodResolver(LoginInputSchema),
     });
 
-    const { isPending, mutate, isError, error } = useMutation({
+    const { isPending, mutate } = useMutation({
         mutationKey: ["login"],
         mutationFn: login,
         onError: (error: AxiosError<LaravelValidationError>) => {
             if (!error.response) return;
+
+            if (error.response.status === 401) {
+                setError("form", {
+                    type: "server",
+                    message: error.response.data.message,
+                });
+            }
+
             if (error.response.status !== 422) return;
 
             const serverErrors = error.response.data?.errors;
@@ -45,16 +58,14 @@ export function LoginForm({
                 });
             });
         },
+        onSuccess: (data) => {
+            console.log(data);
+        },
     });
 
     const submit = (data: LoginInputType) => {
         mutate(data);
     };
-
-    const globalError = isError
-        ? error?.response?.data?.message ||
-          "Something went wrong. Please try again."
-        : "";
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -64,22 +75,32 @@ export function LoginForm({
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit(submit)}>
-                        <FieldGroup>
+                        <FieldGroup className="gap-4">
                             <Field>
                                 <FieldLabel htmlFor="email">Email</FieldLabel>
                                 <Input
                                     id="email"
                                     type="email"
                                     placeholder="email@example.com"
-                                    required
                                     {...register("email")}
                                 />
+                                {!isEmpty(errors.email) && (
+                                    <FieldError
+                                        className="mx-auto text-xs"
+                                        errors={[
+                                            {
+                                                message: errors.email?.message,
+                                            },
+                                        ]}
+                                    />
+                                )}
                             </Field>
                             <Field>
                                 <div className="flex items-center">
                                     <FieldLabel htmlFor="password">
                                         Password
                                     </FieldLabel>
+
                                     <a
                                         href="#"
                                         className="ml-auto text-sm underline-offset-4 hover:underline"
@@ -90,17 +111,27 @@ export function LoginForm({
                                 <Input
                                     id="password"
                                     type="password"
-                                    required
                                     {...register("password")}
                                 />
+                                {!isEmpty(errors.password) && (
+                                    <FieldError
+                                        className="mx-auto text-xs"
+                                        errors={[
+                                            {
+                                                message:
+                                                    errors.password?.message,
+                                            },
+                                        ]}
+                                    />
+                                )}
                             </Field>
 
-                            {!isEmpty(globalError) && (
+                            {!isEmpty(errors.form) && (
                                 <FieldError
                                     className="mx-auto"
                                     errors={[
                                         {
-                                            message: globalError,
+                                            message: errors.form?.message,
                                         },
                                     ]}
                                 />
