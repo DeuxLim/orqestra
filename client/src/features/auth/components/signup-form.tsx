@@ -60,6 +60,7 @@ export function SignupForm({
             }
         },
         onSuccess: (data) => {
+            console.log(data);
             navigate("/login");
         },
     });
