@@ -32,8 +32,9 @@ class AuthController extends Controller
             ]
         ]);
 
-        
         $user = User::create($validated);
+
+        Auth::login($user);
 
         event(new Registered($user));
 
@@ -53,6 +54,16 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            $user = $request->user();
+
+            if (! $user->hasVerifiedEmail()) {
+                Auth::logout();
+
+                return response()->json([
+                    'message' => 'Please verify your email first.'
+                ], 403);
+            }
 
             return response()->json([
                 "success" => true,
@@ -78,6 +89,23 @@ class AuthController extends Controller
             "success" => true,
             "message" => "Logged out successfully."
         ], 200);
+    }
+
+    public function resend(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Email already verified.'
+            ], 400);
+        }
+
+        $user->sendEmailVerificationNotification();
+
+        return response()->json([
+            'message' => 'Verification link sent!'
+        ]);
     }
 
     public function forgotPassword() {}
