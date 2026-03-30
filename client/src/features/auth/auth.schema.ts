@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const LoginInputSchema = z.object({
-    email: z.email(),
-    password: z.string(),
+    email: z.email("Email is required."),
+    password: z.string().trim().min(1, "Password is required,"),
 });
 
 export const RegisterInputSchema = z
