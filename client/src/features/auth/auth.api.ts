@@ -16,3 +16,8 @@ export const register = async (data: RegisterInputType) => {
     const response = await api.post("/register", data);
     return response;
 };
+
+export const resendEmailVerification = async () => {
+    const response = await api.post("/email/verification-notification");
+    return response;
+};
