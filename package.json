@@ -1,31 +1,32 @@
 {
-	"name": "orqestra",
-	"version": "1.0.0",
-	"description": "",
-	"main": "index.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"dev:client": "cd client && npm run dev",
-		"dev:server": "cd server && php artisan serve",
-		"dev:queue": "cd server && php artisan queue:listen",
-		"dev": "concurrently 'npm run dev:server' 'npm run dev:client' 'npm run dev:queue'"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/DeuxLim/orqestra.git"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"type": "commonjs",
-	"bugs": {
-		"url": "https://github.com/DeuxLim/orqestra/issues"
-	},
-	"homepage": "https://github.com/DeuxLim/orqestra#readme",
-	"devDependencies": {
-		"concurrently": "^9.2.1"
-	},
-	"dependencies": {
-		"@hookform/resolvers": "^5.2.2"
-	}
+    "name": "orqestra",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev:client": "cd client && npm run dev",
+        "dev:server": "cd server && php artisan serve",
+        "dev:queue": "cd server && php artisan queue:listen",
+        "migrate-fresh": "cd server && php artisan migrate:fresh",
+        "dev": "concurrently 'npm run dev:server' 'npm run dev:client' 'npm run dev:queue'"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/DeuxLim/orqestra.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "commonjs",
+    "bugs": {
+        "url": "https://github.com/DeuxLim/orqestra/issues"
+    },
+    "homepage": "https://github.com/DeuxLim/orqestra#readme",
+    "devDependencies": {
+        "concurrently": "^9.2.1"
+    },
+    "dependencies": {
+        "@hookform/resolvers": "^5.2.2"
+    }
 }
