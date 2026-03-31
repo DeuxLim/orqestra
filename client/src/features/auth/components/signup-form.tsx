@@ -41,7 +41,7 @@ export function SignupForm({
         resolver: zodResolver(RegisterInputSchema),
     });
 
-    const { mutate } = useMutation({
+    const { mutate, isPending } = useMutation({
         mutationKey: ["register"],
         mutationFn: registerUser,
         onError: (error: AxiosError<LaravelValidationError>) => {
@@ -56,6 +56,13 @@ export function SignupForm({
                         type: "server",
                         message: (messages as string[])[0],
                     });
+                });
+            }
+
+            if (status === 500) {
+                setError("form", {
+                    type: "server",
+                    message: "Something went wrong. Please contact support.",
                 });
             }
         },
@@ -250,8 +257,22 @@ export function SignupForm({
                                     </ul>
                                 </div>
                             </Field>
+                            {!isEmpty(errors.form) && (
+                                <FieldError
+                                    className="mx-auto text-xs"
+                                    errors={[
+                                        {
+                                            message: errors.form?.message,
+                                        },
+                                    ]}
+                                />
+                            )}
                             <Field>
-                                <Button type="submit">Create Account</Button>
+                                <Button type="submit" disabled={isPending}>
+                                    {isPending
+                                        ? "Creating your account..."
+                                        : "Create your account"}
+                                </Button>
                                 <FieldDescription className="text-center">
                                     Already have an account?{" "}
                                     <Link to="/login">Sign in</Link>
