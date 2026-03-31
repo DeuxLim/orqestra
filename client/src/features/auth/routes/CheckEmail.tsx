@@ -2,11 +2,14 @@ import AuthLayout from "@/components/layouts/AuthLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
+import { resendEmailVerification } from "../auth.api";
 
 export default function CheckEmail() {
     const { mutate, isPending, isSuccess } = useMutation({
         mutationKey: ["resend-email"],
+        mutationFn: resendEmailVerification,
     });
+
     const handleResendEmail = () => {
         mutate();
     };
@@ -25,8 +28,12 @@ export default function CheckEmail() {
 
                     <Button
                         onClick={handleResendEmail}
-                        className={`w-full ${isPending ? "bg-yellow-300" : isSuccess ? "bg-green-300" : ""}`}
+                        disabled={isPending || isSuccess}
                         variant="outline"
+                        className={`w-full
+                            ${isPending ? "bg-yellow-300 !hover:bg-yellow-300" : ""}
+                            ${isSuccess ? "bg-green-300 !hover:bg-green-300" : ""}
+                        `}
                     >
                         {isPending
                             ? "Sending email verification link..."
