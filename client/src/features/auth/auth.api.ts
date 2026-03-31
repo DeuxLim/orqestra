@@ -18,6 +18,10 @@ export const register = async (data: RegisterInputType) => {
 };
 
 export const resendEmailVerification = async () => {
-    const response = await api.post("/email/verification-notification");
+    const response = await api.post(
+        "/email/verification-notification",
+        {},
+        { withCredentials: true },
+    );
     return response;
 };
