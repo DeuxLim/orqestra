@@ -1,4 +1,3 @@
-import AuthLayout from "@/components/layouts/AuthLayout";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
@@ -24,18 +23,16 @@ export default function EmailVerified() {
     }, [navigate]);
 
     return (
-        <AuthLayout>
-            <Card className="text-center">
-                <CardHeader>
-                    <CardTitle>
-                        You account is now verified. <br /> Redirecting you to
-                        your workspace.
-                    </CardTitle>
-                </CardHeader>
-                <div className="px-10">
-                    <Progress value={loadingProgress} />
-                </div>
-            </Card>
-        </AuthLayout>
+        <Card className="text-center">
+            <CardHeader>
+                <CardTitle>
+                    Your account is now verified. <br /> Redirecting you to your
+                    workspace.
+                </CardTitle>
+            </CardHeader>
+            <div className="px-10">
+                <Progress value={loadingProgress} />
+            </div>
+        </Card>
     );
 }
