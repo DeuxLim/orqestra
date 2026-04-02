@@ -21,7 +21,9 @@ export const createAppRouter = () =>
                     ),
                 },
                 {
-                    lazy: load(() => import("@/app/routes/auth/AuthRouteLayout")),
+                    lazy: load(
+                        () => import("@/app/routes/auth/AuthRouteLayout"),
+                    ),
                     children: [
                         {
                             path: "register",
