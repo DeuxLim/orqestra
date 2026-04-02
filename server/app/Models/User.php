@@ -50,4 +50,10 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function workspaces()
+    {
+        return $this->belongsToMany(Workspace::class, "workspace_user")
+            ->withPivot('role');
+    }
 }
