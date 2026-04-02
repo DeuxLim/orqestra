@@ -9,7 +9,7 @@ import {
     FieldError,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { useForm } from "react-hook-form";
 import { isEmpty } from "@/utils/helpers";
 import { useMutation } from "@tanstack/react-query";
@@ -24,6 +24,14 @@ export function LoginForm({
     className,
     ...props
 }: React.ComponentProps<"div">) {
+    const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const redirectToParam = searchParams.get("redirectTo");
+    const redirectTo =
+        redirectToParam && redirectToParam.startsWith("/")
+            ? redirectToParam
+            : "/dashboard";
+
     const {
         register,
         handleSubmit,
@@ -46,6 +54,13 @@ export function LoginForm({
                 });
             }
 
+            if (error.response.status === 403) {
+                setError("form", {
+                    type: "server",
+                    message: error.response.data.message,
+                });
+            }
+
             if (error.response.status !== 422) return;
 
             const serverErrors = error.response.data?.errors;
@@ -58,8 +73,8 @@ export function LoginForm({
                 });
             });
         },
-        onSuccess: (data) => {
-            console.log(data);
+        onSuccess: () => {
+            navigate(redirectTo);
         },
     });
 
