@@ -2,7 +2,7 @@ import AuthLayout from "@/components/layouts/AuthLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useMutation } from "@tanstack/react-query";
-import { resendEmailVerification } from "../auth.api";
+import { resendEmailVerification } from "../../../features/auth/auth.api";
 
 export default function CheckEmail() {
     const { mutate, isPending, isSuccess } = useMutation({
@@ -15,7 +15,7 @@ export default function CheckEmail() {
     };
     return (
         <AuthLayout>
-            <Card className="w-110 text-center">
+            <Card className="w-full text-center">
                 <CardHeader>
                     <CardTitle>Please check your email</CardTitle>
                 </CardHeader>

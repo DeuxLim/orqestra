@@ -15,19 +15,19 @@ export const createAppRouter = () =>
         },
         {
             path: "/register",
-            lazy: load(() => import("@/features/auth/routes/register")),
+            lazy: load(() => import("@/app/routes/auth/Register")),
         },
         {
             path: "/login",
-            lazy: load(() => import("@/features/auth/routes/login")),
+            lazy: load(() => import("@/app/routes/auth/Login")),
         },
         {
             path: "/check-email",
-            lazy: load(() => import("@/features/auth/routes/CheckEmail")),
+            lazy: load(() => import("@/app/routes/auth/CheckEmail")),
         },
         {
             path: "/email-verified",
-            lazy: load(() => import("@/features/auth/routes/EmailVerified")),
+            lazy: load(() => import("@/app/routes/auth/EmailVerified")),
         },
         {
             path: "/orqestra/dashboard",
