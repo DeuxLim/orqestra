@@ -11,11 +11,9 @@ const api = axios.create({
 // Add a request interceptor
 api.interceptors.request.use(
     function (config) {
-        console.log("request interceptor...", config);
         return config;
     },
     function (error) {
-        console.log("request error interceptor...", error);
         return Promise.reject(error);
     },
 );
@@ -23,11 +21,9 @@ api.interceptors.request.use(
 // Add a response interceptor
 api.interceptors.response.use(
     function onFulfilled(response) {
-        console.log("response interceptor...", response);
         return response;
     },
     function onRejected(error) {
-        console.log(error);
         return Promise.reject(error);
     },
 );
