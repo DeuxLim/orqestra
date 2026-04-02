@@ -25,6 +25,11 @@ export const RegisterInputSchema = z
                 "Must contain at least one special character",
             ),
         password_confirmation: z.string(),
+        workspace_name: z
+            .string()
+            .min(1, "Workspace name is required")
+            .max(100)
+            .trim(),
     })
     .refine((data) => data.password === data.password_confirmation, {
         message: "Passwords do not match",
