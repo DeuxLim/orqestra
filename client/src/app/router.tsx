@@ -11,7 +11,7 @@ export const createAppRouter = () =>
     createBrowserRouter([
         {
             index: true,
-            element: <>Landing Page</>,
+            lazy: load(() => import("@/app/routes/landing-page/LandingPage")),
         },
         {
             path: "/register",
@@ -30,7 +30,7 @@ export const createAppRouter = () =>
             lazy: load(() => import("@/app/routes/auth/EmailVerified")),
         },
         {
-            path: "/orqestra/dashboard",
-            element: <div>DASHBOARD PAGE</div>,
+            path: "/dashboard",
+            lazy: load(() => import("@/app/routes/dashboard/Dashboard")),
         },
     ]);

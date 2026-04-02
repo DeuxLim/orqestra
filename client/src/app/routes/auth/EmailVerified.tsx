@@ -13,7 +13,7 @@ export default function EmailVerified() {
             setLoadingProgress((prev) => {
                 if (prev <= 0) {
                     clearInterval(interval);
-                    navigate("/orqestra/dashboard");
+                    navigate("/dashboard");
                     return 0;
                 }
                 return prev - 1;
