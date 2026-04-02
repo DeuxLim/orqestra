@@ -25,3 +25,8 @@ export const resendEmailVerification = async () => {
     );
     return response;
 };
+
+export const fetchCurrentUser = async () => {
+    const response = await api.get("/user");
+    return response.data;
+};
