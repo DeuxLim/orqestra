@@ -24,7 +24,7 @@ import { useMutation } from "@tanstack/react-query";
 import { register as registerUser } from "@/features/auth/auth.api";
 import { isEmpty } from "@/utils/helpers";
 import type { AxiosError } from "axios";
-import type { LaravelValidationError } from "@/shared/types/api";
+import type { LaravelValidationError } from "@/types/api";
 
 export function SignupForm({
     className,

@@ -17,7 +17,7 @@ import { login } from "@/features/auth/auth.api";
 import type { LoginInputType } from "@/features/auth/auth.types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginInputSchema } from "../auth.schema";
-import type { LaravelValidationError } from "@/shared/types/api";
+import type { LaravelValidationError } from "@/types/api";
 import type { AxiosError } from "axios";
 
 export function LoginForm({
