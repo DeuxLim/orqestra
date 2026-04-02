@@ -239,6 +239,32 @@ export function SignupForm({
                                         )}
                                     </Field>
                                 </Field>
+
+                                {/* Email */}
+                                <Field>
+                                    <FieldLabel htmlFor="email">
+                                        Workspace name
+                                    </FieldLabel>
+                                    <Input
+                                        id="workspace_name"
+                                        type="text"
+                                        placeholder="Acme Inc."
+                                        {...register("workspace_name")}
+                                    />
+                                    {!isEmpty(errors.workspace_name) && (
+                                        <FieldError
+                                            className="mx-auto text-xs"
+                                            errors={[
+                                                {
+                                                    message:
+                                                        errors.workspace_name
+                                                            ?.message,
+                                                },
+                                            ]}
+                                        />
+                                    )}
+                                </Field>
+
                                 <div className="py-4 text-muted-foreground space-y-1 text-xs">
                                     <p>Password must:</p>
                                     <ul className="list-disc pl-5">
