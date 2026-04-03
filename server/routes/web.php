@@ -26,7 +26,7 @@ Route::post('/login', [AuthController::class, 'login']);
 | Authenticated (Sanctum)
 |--------------------------------------------------------------------------
 */
-Route::middleware('auth:sanctum')->group(function () {
+Route::middleware('auth')->group(function () {
 
     // Logout
     Route::post('/logout', [AuthController::class, 'logout']);
