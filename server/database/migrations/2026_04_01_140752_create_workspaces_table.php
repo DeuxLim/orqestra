@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('workspaces', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("slug")->unique();
+            $table->string('name');
+            $table->string('slug')->unique();
+            // Constrained : This column must match a real row on users table - data integrity
+            $table->foreignId('owner_user_id')->constrained('users');
             $table->timestamps();
-
-            $table->index('slug');
         });
     }
 
