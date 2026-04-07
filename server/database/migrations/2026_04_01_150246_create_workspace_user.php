@@ -15,14 +15,10 @@ return new class extends Migration
     {
         Schema::create('workspace_user', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
             $table->foreignIdFor(Workspace::class)->constrained()->cascadeOnDelete();
-
-            $table->string('role'); // owner, admin, member
-
+            $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete();
+            $table->timestamp("joined_at")->nullable();
             $table->timestamps();
-
             $table->unique(['user_id', 'workspace_id']); // Row uniqueness
         });
     }
