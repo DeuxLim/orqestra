@@ -51,9 +51,43 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function ownedWorkspaces()
+    {
+        return $this->hasMany(Workspace::class, 'owner_user_id');
+    }
+
     public function workspaces()
     {
-        return $this->belongsToMany(Workspace::class, "workspace_user")
-            ->withPivot('role');
+        return $this->belongsToMany(Workspace::class, 'workspace_user');
+    }
+
+    public function assignedTickets()
+    {
+        return $this->hasMany(Ticket::class, 'assigned_to_user_id');
+    }
+
+    public function createdTickets()
+    {
+        return $this->hasMany(Ticket::class, 'created_by_user_id');
+    }
+
+    public function workspaceRoles()
+    {
+        return $this->belongsToMany(WorkspaceRole::class, 'workspace_user_roles');
+    }
+
+    public function workspacePermissions()
+    {
+        return $this->workspaceRoles->loadMissing('workspacePermissions');
+    }
+
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(TicketComment::class);
     }
 }
