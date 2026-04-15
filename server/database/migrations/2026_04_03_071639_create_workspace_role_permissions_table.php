@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unique([
                 'workspace_role_id',
                 'workspace_permission_id'
-            ]);
+            ], 'wrp_role_permission_unique');
         });
     }
 
