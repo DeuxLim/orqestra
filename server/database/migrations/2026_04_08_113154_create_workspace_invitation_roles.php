@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unique([
                 'workspace_invitation_id',
                 'workspace_role_id'
-            ]);
+            ], 'wir_invitation_role_unique');
         });
     }
 
