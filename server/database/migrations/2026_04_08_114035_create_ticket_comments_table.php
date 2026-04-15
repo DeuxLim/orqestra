@@ -31,6 +31,8 @@ return new class extends Migration
                 ->constrained()
                 ->nullOnDelete();
 
+            $table->string('author_type');
+
             $table->text('body');
             $table->boolean('is_internal')->default(false);
             $table->timestamps();
