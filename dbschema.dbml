@@ -1,0 +1,326 @@
+Table "cache" {
+  "key" varchar(255) [pk, not null]
+  "value" mediumtext [not null]
+  "expiration" int [not null]
+
+  Indexes {
+    expiration [type: btree, name: "cache_expiration_index"]
+  }
+}
+
+Table "cache_locks" {
+  "key" varchar(255) [pk, not null]
+  "owner" varchar(255) [not null]
+  "expiration" int [not null]
+
+  Indexes {
+    expiration [type: btree, name: "cache_locks_expiration_index"]
+  }
+}
+
+Table "activity_logs" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "workspace_id" "bigint unsigned"
+  "user_id" "bigint unsigned"
+  "action" varchar(255) [not null]
+  "subject_type" varchar(255) [not null]
+  "subject_id" "bigint unsigned"
+  "meta" json
+  "created_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+
+  Indexes {
+    action [type: btree, name: "activity_logs_action_index"]
+    (subject_type, subject_id) [type: btree, name: "activity_logs_subject_type_subject_id_index"]
+  }
+}
+
+Table "customers" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "workspace_id" "bigint unsigned" [not null]
+  "name" varchar(255) [not null]
+  "email" varchar(255)
+  "phone" varchar(255)
+  "company" varchar(255)
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    email [type: btree, name: "customers_email_index"]
+    (workspace_id, email) [type: btree, name: "customers_workspace_id_email_index"]
+  }
+}
+
+Table "failed_jobs" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "uuid" varchar(255) [unique, not null]
+  "connection" text [not null]
+  "queue" text [not null]
+  "payload" longtext [not null]
+  "exception" longtext [not null]
+  "failed_at" timestamp [not null, default: `CURRENT_TIMESTAMP`]
+}
+
+Table "job_batches" {
+  "id" varchar(255) [pk, not null]
+  "name" varchar(255) [not null]
+  "total_jobs" int [not null]
+  "pending_jobs" int [not null]
+  "failed_jobs" int [not null]
+  "failed_job_ids" longtext [not null]
+  "options" mediumtext
+  "cancelled_at" int
+  "created_at" int [not null]
+  "finished_at" int
+}
+
+Table "jobs" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "queue" varchar(255) [not null]
+  "payload" longtext [not null]
+  "attempts" "tinyint unsigned" [not null]
+  "reserved_at" "int unsigned"
+  "available_at" "int unsigned" [not null]
+  "created_at" "int unsigned" [not null]
+
+  Indexes {
+    queue [type: btree, name: "jobs_queue_index"]
+  }
+}
+
+Table "migrations" {
+  "id" "int unsigned" [pk, not null, increment]
+  "migration" varchar(255) [not null]
+  "batch" int [not null]
+}
+
+Table "password_reset_tokens" {
+  "email" varchar(255) [pk, not null]
+  "token" varchar(255) [not null]
+  "created_at" timestamp
+}
+
+Table "personal_access_tokens" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "tokenable_type" varchar(255) [not null]
+  "tokenable_id" "bigint unsigned" [not null]
+  "name" text [not null]
+  "token" varchar(64) [unique, not null]
+  "abilities" text
+  "last_used_at" timestamp
+  "expires_at" timestamp
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    expires_at [type: btree, name: "personal_access_tokens_expires_at_index"]
+    (tokenable_type, tokenable_id) [type: btree, name: "personal_access_tokens_tokenable_type_tokenable_id_index"]
+  }
+}
+
+Table "sessions" {
+  "id" varchar(255) [pk, not null]
+  "user_id" "bigint unsigned"
+  "ip_address" varchar(45)
+  "user_agent" text
+  "payload" longtext [not null]
+  "last_activity" int [not null]
+
+  Indexes {
+    last_activity [type: btree, name: "sessions_last_activity_index"]
+    user_id [type: btree, name: "sessions_user_id_index"]
+  }
+}
+
+Table "ticket_comments" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "workspace_id" "bigint unsigned" [not null]
+  "ticket_id" "bigint unsigned" [not null]
+  "user_id" "bigint unsigned"
+  "customer_id" "bigint unsigned"
+  "body" text [not null]
+  "is_internal" tinyint(1) [not null, default: 0]
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "tickets" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "workspace_id" "bigint unsigned" [not null]
+  "customer_id" "bigint unsigned" [not null]
+  "created_by_user_id" "bigint unsigned"
+  "assigned_to_user_id" "bigint unsigned"
+  "ticket_number" varchar(255) [not null]
+  "title" varchar(255)
+  "description" text
+  "status" varchar(255) [not null]
+  "priority" varchar(255) [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    priority [type: btree, name: "tickets_priority_index"]
+    status [type: btree, name: "tickets_status_index"]
+    (workspace_id, ticket_number) [unique, name: "tickets_workspace_id_ticket_number_unique"]
+  }
+}
+
+Table "users" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "first_name" varchar(255) [not null]
+  "last_name" varchar(255) [not null]
+  "username" varchar(255) [unique, not null]
+  "email" varchar(255) [unique, not null]
+  "email_verified_at" timestamp
+  "password" varchar(255) [not null]
+  "is_platform_admin" tinyint(1) [not null, default: 0]
+  "remember_token" varchar(100)
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "workspace_invitation_roles" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "workspace_invitation_id" "bigint unsigned" [not null]
+  "workspace_role_id" "bigint unsigned" [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    (workspace_invitation_id, workspace_role_id) [unique, name: "wir_invitation_role_unique"]
+  }
+}
+
+Table "workspace_invitations" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "workspace_id" "bigint unsigned" [not null]
+  "email" varchar(255) [not null]
+  "invited_by_user_id" "bigint unsigned" [not null]
+  "token" varchar(255) [unique, not null]
+  "status" varchar(255) [not null]
+  "expires_at" timestamp [not null]
+  "accepted_at" timestamp
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    email [type: btree, name: "workspace_invitations_email_index"]
+    (email, status) [type: btree, name: "workspace_invitations_email_status_index"]
+    status [type: btree, name: "workspace_invitations_status_index"]
+  }
+}
+
+Table "workspace_permissions" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "name" varchar(255) [not null]
+  "slug" varchar(255) [unique, not null]
+  "description" text
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Table "workspace_role_permissions" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "workspace_role_id" "bigint unsigned" [not null]
+  "workspace_permission_id" "bigint unsigned" [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    (workspace_role_id, workspace_permission_id) [unique, name: "wrp_role_permission_unique"]
+  }
+}
+
+Table "workspace_roles" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "workspace_id" "bigint unsigned" [not null]
+  "name" varchar(255) [not null]
+  "slug" varchar(255) [not null]
+  "description" text
+  "is_system" tinyint(1) [not null, default: 0]
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    (workspace_id, slug) [unique, name: "workspace_roles_workspace_id_slug_unique"]
+  }
+}
+
+Table "workspace_user" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "workspace_id" "bigint unsigned" [not null]
+  "user_id" "bigint unsigned" [not null]
+  "joined_at" timestamp
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    (user_id, workspace_id) [unique, name: "workspace_user_user_id_workspace_id_unique"]
+  }
+}
+
+Table "workspace_user_roles" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "user_id" "bigint unsigned" [not null]
+  "workspace_role_id" "bigint unsigned" [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+
+  Indexes {
+    (user_id, workspace_role_id) [unique, name: "workspace_user_roles_user_id_workspace_role_id_unique"]
+  }
+}
+
+Table "workspaces" {
+  "id" "bigint unsigned" [pk, not null, increment]
+  "name" varchar(255) [not null]
+  "slug" varchar(255) [unique, not null]
+  "owner_user_id" "bigint unsigned" [not null]
+  "created_at" timestamp
+  "updated_at" timestamp
+}
+
+Ref "activity_logs_user_id_foreign":"users"."id" < "activity_logs"."user_id" [delete: set null]
+
+Ref "activity_logs_workspace_id_foreign":"workspaces"."id" < "activity_logs"."workspace_id" [delete: set null]
+
+Ref "customers_workspace_id_foreign":"workspaces"."id" < "customers"."workspace_id" [delete: cascade]
+
+Ref "ticket_comments_customer_id_foreign":"customers"."id" < "ticket_comments"."customer_id" [delete: set null]
+
+Ref "ticket_comments_ticket_id_foreign":"tickets"."id" < "ticket_comments"."ticket_id" [delete: cascade]
+
+Ref "ticket_comments_user_id_foreign":"users"."id" < "ticket_comments"."user_id" [delete: set null]
+
+Ref "ticket_comments_workspace_id_foreign":"workspaces"."id" < "ticket_comments"."workspace_id" [delete: cascade]
+
+Ref "tickets_assigned_to_user_id_foreign":"users"."id" < "tickets"."assigned_to_user_id" [delete: set null]
+
+Ref "tickets_created_by_user_id_foreign":"users"."id" < "tickets"."created_by_user_id" [delete: set null]
+
+Ref "tickets_customer_id_foreign":"customers"."id" < "tickets"."customer_id" [delete: cascade]
+
+Ref "tickets_workspace_id_foreign":"workspaces"."id" < "tickets"."workspace_id" [delete: cascade]
+
+Ref "workspace_invitation_roles_workspace_invitation_id_foreign":"workspace_invitations"."id" < "workspace_invitation_roles"."workspace_invitation_id" [delete: cascade]
+
+Ref "workspace_invitation_roles_workspace_role_id_foreign":"workspace_roles"."id" < "workspace_invitation_roles"."workspace_role_id" [delete: cascade]
+
+Ref "workspace_invitations_invited_by_user_id_foreign":"users"."id" < "workspace_invitations"."invited_by_user_id" [delete: cascade]
+
+Ref "workspace_invitations_workspace_id_foreign":"workspaces"."id" < "workspace_invitations"."workspace_id" [delete: cascade]
+
+Ref "workspace_role_permissions_workspace_permission_id_foreign":"workspace_permissions"."id" < "workspace_role_permissions"."workspace_permission_id" [delete: cascade]
+
+Ref "workspace_role_permissions_workspace_role_id_foreign":"workspace_roles"."id" < "workspace_role_permissions"."workspace_role_id" [delete: cascade]
+
+Ref "workspace_roles_workspace_id_foreign":"workspaces"."id" < "workspace_roles"."workspace_id" [delete: cascade]
+
+Ref "workspace_user_user_id_foreign":"users"."id" < "workspace_user"."user_id" [delete: cascade]
+
+Ref "workspace_user_workspace_id_foreign":"workspaces"."id" < "workspace_user"."workspace_id" [delete: cascade]
+
+Ref "workspace_user_roles_user_id_foreign":"users"."id" < "workspace_user_roles"."user_id" [delete: cascade]
+
+Ref "workspace_user_roles_workspace_role_id_foreign":"workspace_roles"."id" < "workspace_user_roles"."workspace_role_id" [delete: cascade]
+
+Ref "workspaces_owner_user_id_foreign":"users"."id" < "workspaces"."owner_user_id"
