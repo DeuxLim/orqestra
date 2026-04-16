@@ -6,6 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class WorkspaceRole extends Model
 {
+    protected $fillable = [
+        'name',
+        'slug',
+        'description',
+        'isSystem',
+    ];
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'workspace_user_roles');
