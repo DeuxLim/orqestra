@@ -4,12 +4,13 @@ namespace App\Services\Auth;
 
 use App\Models\User;
 use App\Models\Workspace;
+use App\Models\WorkspaceRole;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class AuthService
 {
-    private function createWorkspaceWithUniqueSlug(String $name)
+    private function createWorkspaceWithUniqueSlug(String $name, User $user)
     {
         $baseSlug = Str::slug($name);
         $slug = $baseSlug;
@@ -20,6 +21,7 @@ class AuthService
                 return Workspace::create([
                     'name' => $name,
                     'slug' => $slug,
+                    'owner_user_id' => $user->id,
                 ]);
             } catch (\Illuminate\Database\QueryException $e) {
                 $slug = $baseSlug . '-' . $counter;
@@ -31,6 +33,8 @@ class AuthService
     public function register(array $data)
     {
         return DB::transaction(function () use ($data) {
+
+            // Create user
             $user = User::create([
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name'],
@@ -39,13 +43,26 @@ class AuthService
                 'password' => $data['password'],
             ]);
 
+            // Create workspace
             $workspace = $this->createWorkspaceWithUniqueSlug(
-                $data['workspace_name']
+                $data['workspace_name'],
+                $user
             );
 
-            $user->workspaces()->attach($workspace->id, [
-                'role' => 'owner',
-            ]);
+            // Attach relationship
+            $user->workspaces()->attach($workspace->id);
+
+            // Create default roles per workspace
+            $defaultWorkspaceRoles = collect(config('workspace.default_roles'))
+                ->map(function ($role) use ($workspace) {
+                    return $workspace->roles()->create($role);
+                });
+
+            // Get role
+            $ownerRole = $defaultWorkspaceRoles->firstWhere('slug', 'owner');
+
+            // Attach role to user
+            $user->workspaceRoles()->attach($ownerRole->id);
 
             return $user;
         });
