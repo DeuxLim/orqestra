@@ -1,6 +1,18 @@
 <?php
 
 return [
+
+    /*
+    |--------------------------------------------------------------------------
+    | Default system roles
+    |--------------------------------------------------------------------------
+    |
+    | Used on workspace creation
+    | default roles will automatically be added to the workspace
+    | each workspace can have their own roles
+    | default roles are immutable
+    |
+    */
     'default_roles' => [
         [
             'name' => 'Owner',
@@ -27,4 +39,5 @@ return [
             'is_system' => true,
         ],
     ],
+
 ];
