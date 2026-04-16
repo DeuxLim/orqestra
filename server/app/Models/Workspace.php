@@ -8,7 +8,8 @@ class Workspace extends Model
 {
     protected $fillable = [
         'name',
-        'slug'
+        'slug',
+        'owner_user_id',
     ];
 
     /* Get workspace owner */
