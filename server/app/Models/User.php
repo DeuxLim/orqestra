@@ -71,16 +71,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Ticket::class, 'created_by_user_id');
     }
 
-    public function workspaceRoles()
-    {
-        return $this->belongsToMany(WorkspaceRole::class, 'workspace_user_roles');
-    }
-
-    public function workspacePermissions()
-    {
-        return $this->workspaceRoles->loadMissing('workspacePermissions');
-    }
-
     public function activityLogs()
     {
         return $this->hasMany(ActivityLog::class);
