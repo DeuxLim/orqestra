@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class WorkspaceUser extends Model
 {
+    protected $fillable = [
+        'workspace_id',
+        'user_id',
+        'joined_at',
+    ];
+
     public function workspaces()
     {
         return $this->belongsToMany(Workspace::class);
@@ -18,6 +24,6 @@ class WorkspaceUser extends Model
 
     public function roles()
     {
-        return $this->hasMany(WorkspaceRole::class);
+        return $this->belongsToMany(WorkspaceRole::class, 'workspace_user_roles');
     }
 }
