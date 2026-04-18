@@ -5,6 +5,7 @@ namespace App\Services\Auth;
 use App\Models\User;
 use App\Models\Workspace;
 use App\Models\WorkspaceRole;
+use App\Models\WorkspaceUser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -49,8 +50,12 @@ class AuthService
                 $user
             );
 
-            // Attach relationship
-            $user->workspaces()->attach($workspace->id);
+            // Attach user<->workspace relationship
+            WorkspaceUser::create([
+                'workspace_id' => $workspace->id,
+                'user_id' => $user->id,
+                'joined_at' => now(),
+            ]);
 
             // Create default roles per workspace
             $defaultWorkspaceRoles = collect(config('workspace.default_roles'))
