@@ -22,7 +22,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->unique([
-                'user_id',
+                'workspace_user_id',
                 'workspace_role_id',
             ]);
         });
