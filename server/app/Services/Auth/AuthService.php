@@ -51,7 +51,7 @@ class AuthService
             );
 
             // Attach user<->workspace relationship
-            WorkspaceUser::create([
+            $workspaceUser = WorkspaceUser::create([
                 'workspace_id' => $workspace->id,
                 'user_id' => $user->id,
                 'joined_at' => now(),
@@ -67,7 +67,7 @@ class AuthService
             $ownerRole = $defaultWorkspaceRoles->firstWhere('slug', 'owner');
 
             // Attach role to user
-            $user->workspaceRoles()->attach($ownerRole->id);
+            $workspaceUser->roles()->attach($ownerRole->id);
 
             return $user;
         });
