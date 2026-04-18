@@ -23,7 +23,7 @@ class WorkspaceRole extends Model
         return $this->belongsTo(Workspace::class);
     }
 
-    public function workspacePermissions()
+    public function permissions()
     {
         return $this->belongsToMany(WorkspacePermission::class, 'workspace_role_permissions');
     }
