@@ -15,7 +15,7 @@ class WorkspaceRole extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'workspace_user_roles');
+        return $this->belongsToMany(WorkspaceUser::class);
     }
 
     public function workspace()

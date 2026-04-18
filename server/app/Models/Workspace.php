@@ -20,9 +20,7 @@ class Workspace extends Model
 
     public function members()
     {
-        // Get workspace users - 2nd argument is needed because pivot table name is custom
-        // (workspace_user instead of default user_workspace) 
-        return $this->belongsToMany(User::class, 'workspace_user');
+        return $this->belongsToMany(WorkspaceUser::class);
     }
 
     public function tickets()

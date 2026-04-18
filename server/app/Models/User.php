@@ -58,7 +58,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function workspaces()
     {
-        return $this->belongsToMany(Workspace::class, 'workspace_user');
+        return $this->belongsToMany(WorkspaceUser::class);
     }
 
     public function assignedTickets()
