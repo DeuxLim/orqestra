@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 
     // Get current user
-    Route::get('/user', fn(Request $request) => $request->user());
+    Route::get('/user', [AuthController::class, 'user']);
 
     // Resend verification email
     Route::post('/email/verification-notification', [AuthController::class, 'resend'])
